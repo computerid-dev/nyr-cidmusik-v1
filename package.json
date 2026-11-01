@@ -1,0 +1,13 @@
+{
+  "name": "nyr-musik",
+  "version": "1.0.0-beta",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "22.x" },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "axios-cookiejar-support": "^5.0.5",
+    "crypto-js": "^4.2.0",
+    "tough-cookie": "^5.0.0"
+  }
+}
