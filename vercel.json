@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/*.js": { "maxDuration": 60 }
+  },
+  "headers": [
+    {
+      "source": "/nyr-musik/sw.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+    }
+  ]
+}
