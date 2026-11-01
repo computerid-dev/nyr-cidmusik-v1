@@ -1,0 +1,4 @@
+NYR Musik - Setup Environment Variable
+
+Tidak ada environment variable yang dibutuhkan.
+Semua konfigurasi sudah ada di dalam kode. Lewati langkah ini di Vercel.
