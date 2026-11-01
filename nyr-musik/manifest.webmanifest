@@ -1,0 +1,16 @@
+{
+  "name": "NYR Musik",
+  "short_name": "NYR Musik",
+  "description": "Streaming dan unduh musik. #NYR-musicstream",
+  "start_url": "/nyr-musik/index.html",
+  "scope": "/nyr-musik/",
+  "display": "standalone",
+  "background_color": "#FFF8E7",
+  "theme_color": "#FFD93D",
+  "lang": "id",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
