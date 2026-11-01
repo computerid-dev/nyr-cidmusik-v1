@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>NYR Musik</title>
+  <meta name="theme-color" content="#FFD93D">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <script>
+    (function () {
+      var ALLOWED_HOSTS = ["nyr-cidmusik-v1.vercel.app"];
+      if (ALLOWED_HOSTS.indexOf(window.location.hostname) === -1) {
+        window.location.replace("/index.html");
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>NYR MUSIK</h1>
+      <span class="tag">#NYR-musicstream</span>
+    </div>
+    <span id="net-badge" class="badge">ONLINE</span>
+  </header>
+
+  <p id="offline-note" class="note" hidden>Mode offline: hanya menu Unduh yang bisa dibuka. Lagu yang sudah tersimpan tetap bisa diputar.</p>
+
+  <main>
+    <!-- BERANDA -->
+    <section id="tab-home" class="tab">
+      <h2>Lagu pilihan</h2>
+      <div id="home-songs" class="list"></div>
+      <h2>Artis</h2>
+      <div id="artist-grid" class="grid"></div>
+    </section>
+
+    <!-- CARI -->
+    <section id="tab-cari" class="tab" hidden>
+      <form id="form-cari" class="row">
+        <input id="in-cari" type="search" placeholder="Cari lagu atau artis" aria-label="Cari lagu atau artis" maxlength="100">
+        <button class="btn" type="submit">CARI</button>
+      </form>
+      <h2 id="judul-hasil">Hasil</h2>
+      <div id="filter-chips" class="chips" hidden></div>
+      <div id="results" class="list"></div>
+    </section>
+
+    <!-- UNDUH -->
+    <section id="tab-unduh" class="tab" hidden>
+      <h2>Unduh MP3</h2>
+      <form id="form-unduh" class="card">
+        <label for="in-link">Link YouTube atau ID video</label>
+        <input id="in-link" type="text" placeholder="https://youtu.be/..." autocomplete="off">
+        <div class="row">
+          <div class="col">
+            <label for="sel-kualitas">Kualitas</label>
+            <select id="sel-kualitas">
+              <option value="320" selected>320 kbps</option>
+              <option value="256">256 kbps</option>
+              <option value="192">192 kbps</option>
+              <option value="128">128 kbps</option>
+            </select>
+          </div>
+          <label class="check"><input id="chk-offline" type="checkbox" checked> Simpan juga di aplikasi (offline)</label>
+        </div>
+        <button class="btn" type="submit" id="btn-unduh">UNDUH</button>
+        <p class="hint">Kualitas di atas berlaku penuh untuk mesin savetube. Mesin lain memakai kualitas bawaannya.</p>
+      </form>
+      <div id="dl-status" class="status" hidden>
+        <p id="dl-text"></p>
+        <div class="bar"><div id="dl-bar"></div></div>
+      </div>
+      <h2>Riwayat unduhan</h2>
+      <div id="saved" class="list"></div>
+    </section>
+
+    <!-- TES MESIN -->
+    <section id="tab-tes" class="tab" hidden>
+      <h2>Tes Mesin Downloader</h2>
+      <p class="hint">Mesin dicoba satu per satu memakai video di bawah. Hijau = lolos uji, merah = gagal.</p>
+      <div class="row">
+        <input id="in-tes" type="text" aria-label="ID video untuk tes">
+        <button class="btn" id="btn-tes" type="button">TES SEMUA</button>
+      </div>
+      <div id="engine-list" class="list"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <div id="player" class="player" hidden>
+    <img id="p-cover" alt="" width="56" height="56">
+    <div class="p-info">
+      <strong id="p-title">-</strong>
+      <span id="p-sub">-</span>
+      <input id="p-seek" type="range" min="0" max="1000" value="0" aria-label="Posisi lagu">
+    </div>
+    <div class="p-ctrl">
+      <button class="icon" id="p-prev" aria-label="Sebelumnya"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M6 5h3v14H6zM20 5v14L10 12z" fill="currentColor"/></svg></button>
+      <button class="icon big" id="p-play" aria-label="Putar atau jeda"><svg id="ic-play" viewBox="0 0 24 24" width="22" height="22"><path d="M7 4v16l13-8z" fill="currentColor"/></svg><svg id="ic-pause" viewBox="0 0 24 24" width="22" height="22" hidden><path d="M6 4h4v16H6zM14 4h4v16h-4z" fill="currentColor"/></svg></button>
+      <button class="icon" id="p-next" aria-label="Berikutnya"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 5h3v14h-3zM4 5v14l10-7z" fill="currentColor"/></svg></button>
+      <button class="icon" id="p-float" aria-label="Jendela mengambang"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 5h18v14H3zM5 7v10h14V7zM12 11h6v4h-6z" fill="currentColor" fill-rule="evenodd"/></svg></button>
+    </div>
+  </div>
+
+  <nav class="bottom" aria-label="Menu utama">
+    <button class="nav active" data-tab="home">BERANDA</button>
+    <button class="nav" data-tab="cari">CARI</button>
+    <button class="nav" data-tab="unduh">UNDUH</button>
+    <button class="nav" data-tab="tes">TES</button>
+  </nav>
+
+  <audio id="audio" preload="none"></audio>
+  <video id="pip-video" muted playsinline></video>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
